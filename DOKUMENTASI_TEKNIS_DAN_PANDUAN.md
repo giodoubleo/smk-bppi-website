@@ -76,10 +76,16 @@ cd "c:/Users/Gio/Desktop/company profile"
 Pastikan file `.env` ada di root direktori proyek. Jika belum ada, buat file bernama `.env` dan isi konfigurasi berikut:
 ```env
 DATABASE_URL="file:./database.db"
-NEXTAUTH_SECRET="REDACTED"
+NEXTAUTH_SECRET="<hasil-node-randombytes>"
 NEXTAUTH_URL="http://localhost:3000"
 ```
 > **Catatan Teknis**: `DATABASE_URL="file:./database.db"` mengarahkan Prisma untuk membaca database SQLite lokal di dalam folder `prisma/database.db`.
+
+> **WAJIB**: `NEXTAUTH_SECRET` jangan pernah ditulis di repo. Generate nilai acak dengan:
+> ```bash
+> node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+> ```
+> Salin hasilnya ke `.env`. File `.env` tidak di-commit — lihat `.env.example`.
 
 ---
 
@@ -105,9 +111,9 @@ npm install
    ```bash
    npm run db:seed
    ```
-   *Akun Admin Default setelah seed:*
+   *Akun Admin dibuat oleh seed:*
    - **Email**: `admin@smkbppi.sch.id`
-   - **Password**: `REDACTED`
+   - **Password**: tidak ada default. Seed membuat password acak dan menampilkannya di terminal. Kalau ingin menentukan sendiri, set `ADMIN_SEED_PASSWORD` di `.env` sebelum menjalankan seed.
 
 ---
 
