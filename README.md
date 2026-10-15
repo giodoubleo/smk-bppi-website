@@ -30,7 +30,7 @@ Dokumentasi lengkap: [DOKUMENTASI_TEKNIS_DAN_PANDUAN.md](./DOKUMENTASI_TEKNIS_DA
 
 - Next.js 15 (App Router, React 19)
 - TypeScript
-- Tailwind CSS 3 (design token terpusat, `next-themes` tersedia untuk dark mode)
+- Tailwind CSS 3 (design token Material 3, `next-themes` terpasang; palet dark belum diimplementasi)
 - Prisma 5 + SQLite
 - three.js / Spline (hero 3D background)
 

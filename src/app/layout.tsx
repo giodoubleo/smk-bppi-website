@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Outfit } from "next/font/google";
 import "./globals.css";
 import { AppLayoutWrapper } from "@/components/layout/AppLayoutWrapper";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { SCHOOL_INFO } from "@/types";
 
 const manrope = Manrope({
@@ -77,11 +78,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" suppressHydrationWarning>
       <body
         className={`${manrope.variable} ${outfit.variable} font-sans antialiased min-h-screen bg-background text-on-surface`}
       >
-        <AppLayoutWrapper>{children}</AppLayoutWrapper>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <AppLayoutWrapper>{children}</AppLayoutWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
