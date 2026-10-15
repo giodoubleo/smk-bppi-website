@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          String    @default("SUPER_ADMIN")
+  avatar        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  news          News[]
+  announcements Announcement[]
+  galleryImages GalleryImage[]
+  contactMessages ContactMessage[]
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  description String?
+  color     String?
+  news      News[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  thumbnail   String?
+  excerpt     String?
+  content     String
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED
+  isFeatured  Boolean  @default(false)
+  viewCount   Int      @default(0)
+  publishedAt DateTime?
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED
+  priority    String   @default("NORMAL") // LOW, NORMAL, HIGH, URGENT
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Major {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  competency  String
+  facilities  String
+  prospects   String
+  image       String?
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  achievements Achievement[]
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  title       String
+  studentName String
+  category    String // Olimpiade, Lomba, Kompetisi, dll
+  level       String // Sekolah, Kabupaten, Provinsi, Nasional, Internasional
+  rank        String? // Juara 1, Juara 2, dll
+  year        Int
+  date        DateTime?
+  image       String?
+  majorId     String?
+  major       Major?   @relation(fields: [majorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  date        DateTime
+  time        String?
+  location    String?
+  description String
+  image       String?
+  type        String   @default("AKADEMIK") // AKADEMIK, OLAHRAGA, SENI, SOSIAL
+  status      String   @default("UPCOMING") // UPCOMING, ONGOING, COMPLETED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Gallery {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String?
+  coverImage  String?
+  images      GalleryImage[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  title     String?
+  image     String
+  caption   String?
+  albumId   String
+  album     Gallery  @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    User?    @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  authorId  String?
+  author    User?    @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  metaTitle String?
+  metaDesc  String?
+  isPublished Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,53 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# production
+/build
+
+# typescript
+*.tsbuildinfo
+
+# env files (JANGAN pernah commit)
+.env
+.env*.local
+.env.production
+!.env.example
+
+# prisma / database
+prisma/*.db
+prisma/*.db-journal
+prisma/migrations/**/migration_lock.toml
+
+# screenshot debug di root
+/*.png
+
+# gstack tooling
+/.gstack/
+/recordings/
+/screenshots/
+*.webm
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# misc
+.vercel
+*.pem
